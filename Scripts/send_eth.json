@@ -1,0 +1,8 @@
+[
+  {
+    "type":"send_eth",
+    "source_user": 1,
+    "target_user": 2,
+    "amount":0.2
+  }
+]
