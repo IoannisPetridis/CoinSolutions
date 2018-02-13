@@ -15,13 +15,13 @@ $account_id_eth = null; //Null before adding currency account
 $account_balance_eth = 0.00000000; //Default to 0
 $max_trans_amount = 0.00000000; //Default to 0
 if (mysqli_select_db($con,$dbname)) {
-	$sql = "SELECT Account_id_btc, Account_id_eth FROM $dbname.User WHERE Account_id_btc='$account_id_btc' AND Account_id_eth='$account_id_eth'";
+	$sql = "SELECT Email FROM User WHERE Email = '$email';";
 	if ($result=mysqli_query($con,$sql)) {
 		// Return the number of rows in result set
 		$rowcount = mysqli_num_rows($result);
 		if ($rowcount ==0) {
 			//No existing user
-			$sql = "INSERT INTO $dbname.User (Name, Description, Email, Account_id_btc, Account_balance_btc, Account_id_eth, Account_balance_eth, Max_trans_amount) VALUES ('$name', '$description', '$email','$account_id_btc', $account_balance_btc, '$account_id_eth', $account_balance_eth, $max_trans_amount)";
+			$sql = "INSERT INTO User (Name, Description, Email, Account_id_btc, Account_balance_btc, Account_id_eth, Account_balance_eth, Max_trans_amount) VALUES ('$name', '$description', '$email','$account_id_btc', $account_balance_btc, '$account_id_eth', $account_balance_eth, $max_trans_amount)";
 			
 			if (mysqli_query($con,$sql)) {
 				echo "User created!";

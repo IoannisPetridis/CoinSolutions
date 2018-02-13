@@ -13,16 +13,13 @@ $sql="";
 $email = mysqli_real_escape_string($con,getPostValue(0,"email","string","email",true));
 if ($type=="add_btc_currency") {
 	$account_id_btc = mysqli_real_escape_string($con,getPostValue(0,"account_id_btc","string","account id btc",true));
-	$sql = "UPDATE $dbname.User SET Account_id_btc = '$account_id_btc' WHERE Email = '$email';";
+	$sql = "UPDATE $dbname.User SET Account_id_btc = '$account_id_btc', Account_balance_btc = 1.00000000 WHERE Email = '$email';";
 }
 else if ($type=="add_eth_currency") {
 	$account_id_eth = mysqli_real_escape_string($con,getPostValue(0,"account_id_eth","string","account id eth",true));
-	$sql = "UPDATE $dbname.User SET Account_id_eth = '$account_id_eth' WHERE Email = '$email';";
+	$sql = "UPDATE $dbname.User SET Account_id_eth = '$account_id_eth', Account_balance_eth = 1.00000000 WHERE Email = '$email';";
 }
 
-$account_balance_btc = 0.00000000; //Default to 0
-$account_balance_eth = 0.00000000; //Default to 0
-$max_trans_amount = 0.00000000; //Default to 0
 if (mysqli_select_db($con,$dbname)) {
 	if (mysqli_query($con,$sql)) {
 		echo "Your currency account has been updated successfully!";

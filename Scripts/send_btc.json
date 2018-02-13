@@ -1,8 +1,8 @@
 [
   {
     "type":"send_btc",
-    "source_user": 1,
-    "target_user": 2,
+    "source_user": "mrjohnpetridis@gmail.com",
+    "target_user": "michael.much@salamantex.com",
     "amount":0.2
   }
 ]
