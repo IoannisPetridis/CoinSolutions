@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#000000</color>
+    <color name="text_colour">#84D2E5</color>
+    <color name="other_message_colour">#e7eaf4</color>
+    <color name="own_message_colour">#c87ea5ff</color>
+    <color name="profile_text_colour">#515b73</color>
+    <color name="light_gray">#e7eaf4</color>
+    <color name="redColor">#ef5c13</color>
+    <color name="notificationColor">#FF000000</color>
+    <color name="transparentColor">#00000000</color>
+    <color name="blueColor">#84D2E5</color>
+    <color name="orangeColor">#F87A4E</color>
+    <color name="whiteColor">#FFFFFFFF</color>
+    <color name="blackColor">#000000</color>
+    <color name="connectionsPageColor">#79bdfd</color>
+</resources>
