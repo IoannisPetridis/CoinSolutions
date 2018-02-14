@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CoinSolutions</string>
+    <string name="spinner_prompt">Select currency</string>
 </resources>

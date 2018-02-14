@@ -235,6 +235,54 @@ public class ProfilePage extends AppCompatActivity {
         }.start();
     }
 
+    public void onCreateTransactionClick(View v) {
+        Intent intent = new Intent(activeContext, CreateTransaction.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        //Here maybe send data to that activity with the command below
+        //intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+
+    public void showTransactionHistory(View v) {
+        /*
+        String data = prepareData("eth");
+        String url = server+"retrieveAccounthistory.php?pass=masterpass";
+
+        Intent msgIntent = new Intent( activeContext, TalkToServer.class);
+        //Here we define the parameters (url, data)
+        //basically the target php script and the data that's going to be send to it
+        msgIntent.putExtra("url", url);
+        msgIntent.putExtra("data",data);
+        startService(msgIntent);
+
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Retrieving your account history...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        activeDialog = pDialog;
+        countdown = new CountDownTimer(3000, 1000) {
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                pDialog.dismissWithAnimation();
+                if (response!=null) {
+                    Intent intent = new Intent(activeContext, TransactionHistory.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    intent.putExtra("transactionHistory",response);
+                    //Here maybe send data to that activity with the command below
+                    //intent.putExtra(EXTRA_MESSAGE, message);
+                    startActivity(intent);
+                }
+            }
+        }.start();
+        */
+    }
+
     public String prepareData(String type) {
         JSONArray ar = new JSONArray();
         JSONObject obj = new JSONObject();

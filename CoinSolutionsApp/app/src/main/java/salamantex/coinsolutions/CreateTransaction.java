@@ -10,7 +10,9 @@ import android.os.CountDownTimer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -29,26 +31,48 @@ import static salamantex.coinsolutions.MainActivity.server;
  * Created by EEUser on 13/02/2018.
  */
 
-public class LoginPage extends AppCompatActivity {
+public class CreateTransaction extends AppCompatActivity {
 
     Context activeContext;
     SweetAlertDialog pDialog;
+    SweetAlertDialog activeDialog;
     String response;
-    EditText email;
-    String email_text;
+    String spinnerMessage;
+    Spinner spinner;
+
+    EditText target;
+    EditText amount;
+
+    String target_text;
+    String amount_text;
+
+    CountDownTimer countdown;
 
     IntentFilter filter;
     BroadcastReceiver receiver;
     boolean receiverReg = false;
-    CountDownTimer countdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_page);
+        setContentView(R.layout.create_transaction_page);
         activeContext = this;
-        email = (EditText) findViewById(R.id.email_text);
         setReceiver();
+        target = (EditText) findViewById(R.id.target_user_text);
+        amount = (EditText) findViewById(R.id.amount_text);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinnerMessage = spinner.getItemAtPosition(0).toString();
+        spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerMessage = spinner.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -85,7 +109,7 @@ public class LoginPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(activeContext, MainActivity.class);
+        Intent intent = new Intent(activeContext, ProfilePage.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
         finish();
@@ -93,11 +117,11 @@ public class LoginPage extends AppCompatActivity {
 
     public void setReceiver() {
         filter = new IntentFilter();
-        filter.addAction("serverResponseLogin");
+        filter.addAction("serverResponseTransaction");
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context activeContext, Intent intent) {
-                if (intent.getAction().equals("serverResponseLogin")) {
+                if (intent.getAction().equals("serverResponseTransaction")) {
                     response = intent.getStringExtra("result");
                 }
             }
@@ -108,41 +132,59 @@ public class LoginPage extends AppCompatActivity {
         }
     }
 
-    public void onLoginClick(View v) {
-        email_text = email.getText().toString();
-        if (email_text.equals("")) {
+    public void onSendClick(View v) {
+        target_text = target.getText().toString();
+        amount_text = amount.getText().toString();
+        if (target_text.equals("")) {
             //If email is empty
             pDialog = new SweetAlertDialog(activeContext, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Empty email")
-                    .setContentText("Email field must not be empty!")
+                    .setTitleText("Send to who?")
+                    .setContentText("You have to designate who you want to send the money to")
                     .setConfirmText("Got it")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
                             pDialog.dismissWithAnimation();
-                            email.setHintTextColor(Color.RED);
-                            email.setText("");
+                            target.setHintTextColor(Color.RED);
+                            target.setText("");
                         }
                     });
             pDialog.show();
         }
-        else {
-            String data = prepareData();
-            String url = server + "login.php?pass=masterpass";
+        if (amount_text.equals("")) {
+            //If email is empty
+            pDialog = new SweetAlertDialog(activeContext, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("How much?")
+                    .setContentText("You have to define an amount to send")
+                    .setConfirmText("Got it")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            pDialog.dismissWithAnimation();
+                            amount.setHintTextColor(Color.RED);
+                            amount.setText("");
+                        }
+                    });
+            pDialog.show();
+        }
 
-            //TODO: Changed here
-            Intent msgIntent = new Intent(activeContext, TalkToServer.class);
+        if (!amount_text.equals("") && !target_text.equals("")) {
+            String data = prepareData();
+            String url = server+"createTransaction.php?pass=masterpass";
+
+            Intent msgIntent = new Intent( activeContext, TalkToServer.class);
             //Here we define the parameters (url, data)
             //basically the target php script and the data that's going to be send to it
             msgIntent.putExtra("url", url);
-            msgIntent.putExtra("data", data);
+            msgIntent.putExtra("data",data);
             startService(msgIntent);
 
             pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText("Logging you in, please wait...");
+            pDialog.setTitleText("Creating transaction");
             pDialog.setCancelable(false);
             pDialog.show();
+            activeDialog = pDialog;
             countdown = new CountDownTimer(3000, 1000) {
                 @Override
                 public void onTick(long l) {
@@ -152,28 +194,30 @@ public class LoginPage extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     pDialog.dismissWithAnimation();
-                    if (response != null) {
-                        if (Objects.equals(response, "unknown user")) {
+                    if (response!=null) {
+                        if (!response.contains("Transaction submitted")) {
                             pDialog = new SweetAlertDialog(activeContext, SweetAlertDialog.WARNING_TYPE)
-                                    .setTitleText("Unrecognised email")
-                                    .setContentText("We cannot recognise the email: '" + email_text +"!")
+                                    .setTitleText("Error")
+                                    .setContentText("Something went wrong!")
                                     .setConfirmText("Got it")
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sDialog) {
                                             pDialog.dismissWithAnimation();
-                                            email.setHintTextColor(Color.RED);
-                                            email.setText("");
                                         }
                                     });
                             pDialog.show();
-                        } else if (Objects.equals(response, "OK")) {
-                            devEmail = email_text;
-                            Intent intent = new Intent(activeContext, ProfilePage.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            //Here maybe send data to that activity with the command below
-                            //intent.putExtra(EXTRA_MESSAGE, message);
-                            startActivity(intent);
+                        }
+                        else if (response.contains("Transaction submitted")) {
+                            pDialog = new SweetAlertDialog(activeContext, SweetAlertDialog.SUCCESS_TYPE);
+                            pDialog.setTitleText("Success");
+                            pDialog.setContentText("The transaction has been created, it will be processed as soon as possible");
+                            if (activeDialog!=null) {
+                                if (activeDialog.isShowing()) {
+                                    activeDialog.dismissWithAnimation();
+                                }
+                            }
+                            pDialog.show();
                         }
                     }
                 }
@@ -185,7 +229,15 @@ public class LoginPage extends AppCompatActivity {
         JSONArray ar = new JSONArray();
         JSONObject obj = new JSONObject();
         try {
-            obj.put("email",email_text);
+            if (spinnerMessage.equals("BTC")) {
+                obj.put("type","send_btc");
+            }
+            else if (spinnerMessage.equals("ETH")) {
+                obj.put("type","send_eth");
+            }
+            obj.put("source_user",devEmail);
+            obj.put("target_user",target_text); //Here it should be ideally generating it in a proper way not hardcoded of course
+            obj.put("amount", Float.valueOf(amount_text));
             ar.put(obj);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -85,6 +85,9 @@ public class TalkToServer extends IntentService {
             else if (myurl.contains("addCurrency.php")) {
                 intent.setAction("serverResponseCurrency");
             }
+            else if (myurl.contains("createTransaction.php")) {
+                intent.setAction("serverResponseTransaction");
+            }
             intent.putExtra("result",theReply.toString());
             broadcaster.sendBroadcast(intent);
         }

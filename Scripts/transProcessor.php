@@ -26,7 +26,7 @@ if (mysqli_select_db($con,$dbname)) {
 				//Quick way but doesn't let us control the program flow (i.e. we don't know in this script whether there's insufficient balance):
 				//$sql = "UPDATE User SET Account_balance_btc = IF(Account_balance_btc >=$amount, Account_balance_btc - $amount, Account_balance_btc) WHERE Id = $sourceUserId;";
 				//Instead we will separate it into two subsequent calls
-				$sql = "SELECT Account_balance_btc, Id FROM User WHERE Account_balance_btc>=$amount AND Id = $sourceUserId;";
+				$sql = "SELECT Account_balance_btc, Account_id_btc, Id FROM User WHERE Account_balance_btc>=$amount AND Id = $sourceUserId AND Account_id_btc IS NOT NULL;";
 				$sql2 = "UPDATE User SET Account_balance_btc = Account_balance_btc - $amount WHERE Id = $sourceUserId;";
 				$sql3 = "UPDATE User SET Account_balance_btc = Account_balance_btc + $amount WHERE Id = $targUserId;";
 			}
@@ -34,7 +34,7 @@ if (mysqli_select_db($con,$dbname)) {
 				//Quick way but doesn't let us control the program flow (i.e. we don't know in this script whether there's insufficient balance):
 				//$sql = "UPDATE User SET Account_balance_btc = IF(Account_balance_btc >=$amount, Account_balance_btc - $amount, Account_balance_btc) WHERE Id = $sourceUserId;";
 				//Instead we will separate it into two subsequent calls
-				$sql = "SELECT Account_balance_eth, Id FROM User WHERE Account_balance_eth>=$amount AND Id = $sourceUserId;";
+				$sql = "SELECT Account_balance_eth, Account_id_eth Id FROM User WHERE Account_balance_eth>=$amount AND Id = $sourceUserId AND Account_id_eth IS NOT NULL;";
 				$sql2 = "UPDATE User SET Account_balance_eth = Account_balance_eth - $amount WHERE Id = $sourceUserId;";
 				$sql3 = "UPDATE User SET Account_balance_eth = Account_balance_eth + $amount WHERE Id = $targUserId;";
 			}

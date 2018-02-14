@@ -35,7 +35,7 @@
         android:ems="10"
         android:hint="Email@example.com"
         android:imeOptions="actionDone"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:textAlignment="center"
         android:textStyle="italic" />
 

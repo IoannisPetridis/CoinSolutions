@@ -1,1 +1,1 @@
-[]
+[{"Id":"1","Cur_amount":"0.20000000","Cur_type":"Bitcoin","Source_usr_id":"1","Target_usr_id":"2","Timestamp_created":"2018-02-14 01:14:50","Timestamp_processed":"2018-02-14 01:15:07"},{"Id":"2","Cur_amount":"0.20000000","Cur_type":"Ethereum","Source_usr_id":"1","Target_usr_id":"2","Timestamp_created":"2018-02-14 01:15:26","Timestamp_processed":"2018-02-14 01:16:07"}]

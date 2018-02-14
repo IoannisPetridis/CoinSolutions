@@ -5,19 +5,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="salamantex.coinsolutions.RegisterPage">
+    tools:context="salamantex.coinsolutions.CreateTransaction">
 
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/target_user"
         android:layout_width="250dp"
         android:layout_height="25dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/email"
-        android:layout_marginTop="75dp"
+        android:layout_alignBottom="@+id/target_user_text"
+        android:layout_alignStart="@+id/amount"
+        android:layout_marginBottom="42dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:text="Name:"
+        android:text="To:"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/text_colour"
@@ -25,79 +25,77 @@
         android:textStyle="normal" />
 
     <EditText
-        android:id="@+id/name_text"
+        android:id="@+id/target_user_text"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_alignStart="@+id/description_text"
-        android:layout_below="@+id/name"
+        android:layout_above="@+id/amount"
+        android:layout_alignStart="@+id/amount_text"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/text_field_blue"
         android:ems="10"
-        android:hint="John Doe"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="250dp"
-        android:layout_height="25dp"
-        android:layout_above="@+id/description_text"
-        android:layout_alignStart="@+id/name"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:text="Description:"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/text_colour"
-        android:textSize="20sp"
-        android:textStyle="normal" />
-
-    <EditText
-        android:id="@+id/description_text"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/email"
-        android:layout_alignStart="@+id/email_text"
-        android:layout_marginBottom="17dp"
-        android:background="@drawable/text_field_blue"
-        android:ems="10"
-        android:hint="Lorem ipsum dolor"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:textStyle="italic" />
-
-
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="250dp"
-        android:layout_height="25dp"
-        android:layout_above="@+id/email_text"
-        android:layout_centerHorizontal="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:text="Email:"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/text_colour"
-        android:textSize="20sp"
-        android:textStyle="normal" />
-
-    <EditText
-        android:id="@+id/email_text"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/next_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="90dp"
-        android:background="@drawable/text_field_blue"
-        android:ems="10"
-        android:hint="Email@example.com"
+        android:hint="john.doe@unknown.com"
         android:imeOptions="actionDone"
         android:inputType="textEmailAddress"
         android:textAlignment="center"
         android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="250dp"
+        android:layout_height="25dp"
+        android:layout_above="@+id/amount_text"
+        android:layout_alignStart="@+id/currency"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="Amount:"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/text_colour"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <EditText
+        android:id="@+id/amount_text"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/currency"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:background="@drawable/text_field_blue"
+        android:ems="10"
+        android:hint="0.12345678"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:textStyle="italic" />
+
+
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="250dp"
+        android:layout_height="25dp"
+        android:layout_above="@+id/spinner"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="Currency:"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/text_colour"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/next_button"
+        android:layout_alignStart="@+id/currency"
+        android:layout_marginBottom="33dp"
+        android:background="@drawable/text_field_blue"
+        android:entries="@array/currency_types"
+        android:prompt="@string/spinner_prompt"
+        android:spinnerMode="dialog" />
 
 
     <Button
@@ -108,8 +106,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="104dp"
         android:background="@drawable/button_shape"
-        android:onClick="onRegisterClick"
-        android:text="Register"
+        android:onClick="onSendClick"
+        android:text="Send"
         android:textAllCaps="false"
         android:textStyle="bold" />
 
