@@ -6,10 +6,9 @@ require_once("postFunctions.php");
 checkAuthorised();
 $data = json_decode(file_get_contents("php://input"),true);
 $con = dbConnect($dbhost, $dbuser, $dbpass, $dbname);
-//$id = getPostValue(0,"id","int","id",true);
-$email = getPostValue(0,"email","string","email",true);
+$id = getPostValue(0,"id","int","id",true);
 if (mysqli_select_db($con,$dbname)) {
-	$sql = "SELECT Id, Email FROM User WHERE Email='$email';";
+	$sql = "SELECT Id FROM $dbname.User WHERE Id=$id;";
 	if ($result=mysqli_query($con,$sql)) {
 		// Return the number of rows in result set
 		$rowcount = mysqli_num_rows($result);
@@ -19,9 +18,7 @@ if (mysqli_select_db($con,$dbname)) {
 		}
 		else if ($rowcount ==1) {
 			//User exists in the DB
-			$id = mysqli_fetch_array($result)['Id'];
-			echo $id;
-            $sql = "SELECT * INNER JOIN User ON User.Id WHERE User.Id = $id AND Transaction.State = 1 AND (User.Id = Transaction.Source_usr_id OR User.Id = Transaction.Target_usr_id);";
+            $sql = "SELECT Transaction.Cur_amount, Transaction.Cur_type, Transaction.Source_usr_id, Transaction.Target_usr_id, Transaction.State FROM Transaction INNER JOIN User ON User.Id WHERE User.Id = $id AND Transaction.State = 1 AND (User.Id = Transaction.Source_usr_id OR User.Id = Transaction.Target_usr_id);";
             
             if ($res = mysqli_query($con,$sql)) {
                 $ar = array();
@@ -47,4 +44,21 @@ else {
 	echo mysqli_error($con);
 }
 mysqli_close($con);	
+/*echo "<table>";
+echo "<tr>";
+	echo "<td><b>From</b></td>";
+	echo "<td><b>To</b></td>";
+	echo "<td><b>Currency</b></td>";
+	echo "<td><b>Amount</b></td>";
+	echo "<td><b>State</b></td>"; 
+for ($i=0; i<sizeof($ar); ++$i) {
+	echo "<tr>";
+	echo "<td>$ar[$i]['Source_usr_id']</td>";
+	echo "<td>$ar[$i]['Target_usr_id']</td>";
+	echo "<td>$ar[$i]['Cur_type']</td>";
+	echo "<td>$ar[$i]['Cur_amount']</td>";
+	echo "<td>$ar[$i]['State']</td>";
+	echo "</tr>";
+}
+echo "</table>";*/
 ?>

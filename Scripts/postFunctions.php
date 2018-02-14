@@ -51,6 +51,14 @@ function getPostValue($index, $key, $val_type, $field_type, $flag) {
 					die("Null value for type");
 				}
 			}
+			else if ($field_type == "token") {
+				if (($value!=null)||($value!='')) {
+					return $value;
+				}
+				else {
+					die("Null value for token");
+				}
+			}
 		}
 		else {
 			die("Wrong value type");

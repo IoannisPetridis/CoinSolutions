@@ -11,11 +11,13 @@ public class MainActivity extends AppCompatActivity {
 
     public static String server = "http://giannispetridis.xyz/CoinSolutions/Scripts/";
     public static String devEmail = "";
+    public static Class activeClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activeClass = this.getClass();
     }
 
     @Override

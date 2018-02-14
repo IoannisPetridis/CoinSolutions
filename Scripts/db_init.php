@@ -10,7 +10,7 @@ checkAuthorised();
 $con = dbConnect($dbhost, $dbuser, $dbpass, $dbname); //or die(mysqli_connect_error());
 if (mysqli_select_db($con,$dbname)) {
 	echo "<tr><td>Database $dbname selected successfully!</td></tr>";
-	$sql1 = "CREATE TABLE IF NOT EXISTS User ( Id MEDIUMINT NOT NULL AUTO_INCREMENT, Name VARCHAR(512) NOT NULL, Description VARCHAR(1000), Email VARCHAR(1000) NOT NULL, Account_id_btc VARCHAR(35), Account_balance_btc FLOAT(8,8) DEFAULT 0.00000000, Account_id_eth VARCHAR(42), Account_balance_eth FLOAT(8,8) DEFAULT 0.00000000, Max_trans_amount DOUBLE(8,8) DEFAULT 0.00000000, PRIMARY KEY (Id))DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
+	$sql1 = "CREATE TABLE IF NOT EXISTS User ( Id MEDIUMINT NOT NULL AUTO_INCREMENT, Name VARCHAR(512) NOT NULL, Description VARCHAR(1000), Email VARCHAR(1000) NOT NULL, Firebase_token VARCHAR(1000) DEFAULT '', Account_id_btc VARCHAR(35), Account_balance_btc FLOAT(8,8) DEFAULT 0.00000000, Account_id_eth VARCHAR(42), Account_balance_eth FLOAT(8,8) DEFAULT 0.00000000, Max_trans_amount DOUBLE(8,8) DEFAULT 0.00000000, PRIMARY KEY (Id))DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 	//Create trigger to check for max value of 1 bln in Account_balance_btc
 	//Max amount of transaction (Max_trans_amount) ???
 	//Source: https://coinmarketcap.com/currencies/bolenum/

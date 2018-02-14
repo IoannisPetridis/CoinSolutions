@@ -1,4 +1,5 @@
 <?php
+require_once("notifications.php");
 require_once("config.php");
 require_once("db_connect.php");
 require_once("authorisation.php");
@@ -52,6 +53,7 @@ if (mysqli_select_db($con,$dbname)) {
 								//State updated
 								//Logging is essentially the database entry itself but we could also log
 								//everything in a json file that's stored in the server
+								prepareNotification($sourceUserId, $targUserId, $amount, $currType, $timestampProcessed);
 								echo "Transaction completed";
 								echo "<br>";
 								$file = fopen("transactionLog.json", "r+");
@@ -71,7 +73,7 @@ if (mysqli_select_db($con,$dbname)) {
 									ftruncate($file,0);
 									rewind($file);
 									fwrite($file,json_encode($jsonData));
-									//TODO: It appears to be null, check why this is the case
+									
 								}
 								else {
 									echo "Error locking file!";

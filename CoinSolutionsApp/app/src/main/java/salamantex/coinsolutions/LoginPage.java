@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import salamantex.coinsolutions.Network.TalkToServer;
 
+import static salamantex.coinsolutions.MainActivity.activeClass;
 import static salamantex.coinsolutions.MainActivity.devEmail;
 import static salamantex.coinsolutions.MainActivity.server;
 
@@ -47,6 +48,7 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
         activeContext = this;
+        activeClass = this.getClass();
         email = (EditText) findViewById(R.id.email_text);
         setReceiver();
     }

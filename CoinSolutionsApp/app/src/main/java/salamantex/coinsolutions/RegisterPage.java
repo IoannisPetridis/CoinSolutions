@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import salamantex.coinsolutions.Network.TalkToServer;
 
+import static salamantex.coinsolutions.MainActivity.activeClass;
 import static salamantex.coinsolutions.MainActivity.devEmail;
 import static salamantex.coinsolutions.MainActivity.server;
 
@@ -54,6 +55,7 @@ public class RegisterPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
         activeContext = this;
+        activeClass = this.getClass();
         name = (EditText) findViewById(R.id.name_text);
         description = (EditText) findViewById(R.id.description_text);
         email = (EditText) findViewById(R.id.email_text);

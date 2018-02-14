@@ -5,10 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -20,12 +25,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Objects;
-
 import salamantex.coinsolutions.Network.TalkToServer;
 
 import static salamantex.coinsolutions.MainActivity.devEmail;
 import static salamantex.coinsolutions.MainActivity.server;
+import static salamantex.coinsolutions.MainActivity.activeClass;
 
 /**
  * Created by EEUser on 13/02/2018.
@@ -34,6 +38,7 @@ import static salamantex.coinsolutions.MainActivity.server;
 public class CreateTransaction extends AppCompatActivity {
 
     Context activeContext;
+    Context theActiveContext;
     SweetAlertDialog pDialog;
     SweetAlertDialog activeDialog;
     String response;
@@ -52,11 +57,16 @@ public class CreateTransaction extends AppCompatActivity {
     BroadcastReceiver receiver;
     boolean receiverReg = false;
 
+    MediaPlayer mp;
+    Vibrator v;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_transaction_page);
         activeContext = this;
+        theActiveContext = this;
+        activeClass = this.getClass();
         setReceiver();
         target = (EditText) findViewById(R.id.target_user_text);
         amount = (EditText) findViewById(R.id.amount_text);
@@ -117,12 +127,54 @@ public class CreateTransaction extends AppCompatActivity {
 
     public void setReceiver() {
         filter = new IntentFilter();
+        filter.addAction("serverResponseCurrency");
+        filter.addAction("messageBroadcast");
         filter.addAction("serverResponseTransaction");
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context activeContext, Intent intent) {
-                if (intent.getAction().equals("serverResponseTransaction")) {
+                if (intent.getAction().equals("serverResponseCurrency")) {
                     response = intent.getStringExtra("result");
+                }
+                else if (intent.getAction().equals("serverResponseTransaction")) {
+                    response = intent.getStringExtra("result");
+                }
+                else if (intent.getAction().equals("messageBroadcast")) {
+                    Log.e("TAG", "RECEIVED NOTIFICATION!");
+                    Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    if (mp != null) {
+                        if (mp.isPlaying()) {
+                            mp.stop();
+                        }
+                    }
+                    mp = MediaPlayer.create(getApplicationContext(), defaultSoundUri);
+                    mp.start();
+                    //Vibrate
+                    v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    // Vibrate for 500 milliseconds
+                    v.vibrate(1000);
+                    if (activeDialog != null) {
+                        activeDialog.dismissWithAnimation();
+                    }
+                    activeDialog = new SweetAlertDialog(theActiveContext)
+                            .setTitleText("Transaction processed!")
+                            .setContentText(intent.getStringExtra("message"))
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    if (mp != null) {
+                                        if (mp.isPlaying()) {
+                                            mp.stop();
+                                        }
+                                    }
+                                    if (v != null) {
+                                        v.cancel();
+                                    }
+                                    activeDialog.dismissWithAnimation();
+                                }
+                            });
+                    activeDialog.show();
                 }
             }
         };

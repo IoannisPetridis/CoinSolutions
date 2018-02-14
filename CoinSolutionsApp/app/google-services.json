@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "660902046951",
+    "firebase_url": "https://coinsolutions-13d2d.firebaseio.com",
+    "project_id": "coinsolutions-13d2d",
+    "storage_bucket": "coinsolutions-13d2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660902046951:android:c2d5545873057e75",
+        "android_client_info": {
+          "package_name": "salamantex.coinsolutions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "660902046951-4dbrcab2q073gqsoh8s6o3f6gv3ucbur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "salamantex.coinsolutions",
+            "certificate_hash": "e4f7a3cb78be2e95e96edff9730bc7c609e0e931"
+          }
+        },
+        {
+          "client_id": "660902046951-mdlgk5ebijeva6k3jp7quqqj3mf5iqh6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD05klJpkBR9gqn1oyL860ZIDriN2zYOII"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "660902046951-mdlgk5ebijeva6k3jp7quqqj3mf5iqh6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
